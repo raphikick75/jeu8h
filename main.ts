@@ -28,185 +28,253 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         carProtag.setPosition(30, 45)
     }
 })
-let mySprite3 = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`)
-let mySprite4 = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`)
-let mySprite7 = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`)
-let mySprite5 = sprites.create(img`
-.....eeeeeee444444...........
-.fffffffffff555555...........
-.fffffffffff555555d..........
-.ffff.ffeefe555dffd2.........
-.....2ffeeee5fddddd222.......
-....2211eee51f1ddd11122......
-...22111eee11f1ddd111122.....
-22222ffffffffffffffffff222244
-44422f2222222f2f2222222222244
-44422f2222222f2f2222222222222
-2222222222222f222222222222222
-2222222222222f222222222222222
-2222fff222222f2222222fff22222
-222fffff222222222222fffff2222
-..fffffff..........fffffff...
-..fffbfff..........fffbfff...
-..fffffff..........fffffff...
-...fffff............fffff....
-....fff..............fff.....
-.............................
-`)
-let mySprite6 = sprites.create(img`
-. . 1 1 1 1 1 . . 
-. 1 1 1 1 1 1 1 . 
-8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 
-8 1 1 1 1 1 1 8 8 
-8 1 2 2 2 1 1 8 8 
-8 1 2 2 1 8 1 8 8 
-8 1 2 1 8 8 1 8 8 
-8 1 1 8 8 8 1 8 8 
-8 1 1 1 1 1 1 8 8 
-8 8 8 8 8 8 8 8 8 
-8 8 8 8 8 8 8 8 8 
-1 1 1 1 1 1 1 1 1 
-`)
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     statusbar.value += -10
-    actualEnnemy.setPosition(0, 0)
+    actualEnnemy.setPosition(-2, 117)
 })
+let newRandProj = 0
 let new_ennemy_rand_pos = 0
 let newEnemyRand = 0
+let timeFrame = 0
+let bossTime = 0
 let actualEnnemy: Sprite = null
 let CarProtagPosY = 0
 let carProtag: Sprite = null
 let statusbar: StatusBarSprite = null
-let mySprite = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . 1 . . . . . 1 . . . . . 
-    . . . 8 8 8 8 8 8 8 8 8 . . . . 
-    . . . 8 8 8 8 8 8 8 8 8 . . . . 
-    . . . 8 1 1 1 1 1 1 8 8 . . . . 
-    . . . 8 1 2 2 2 1 1 8 8 . . . . 
-    . . . 8 1 2 2 1 8 1 8 8 . . . . 
-    . . . 8 1 2 1 8 8 1 8 8 . . . . 
-    . . . 8 1 1 8 8 8 1 8 8 . . . . 
-    . . . 8 1 1 1 1 1 1 8 8 . . . . 
-    . . . 8 8 8 8 8 8 8 8 8 . . . . 
-    . . . 8 8 8 8 8 8 8 8 8 . . . . 
-    . . . 1 1 1 1 1 1 1 1 1 . . . . 
+let projectile = sprites.create(img`
+    . . 1 1 1 1 1 . . 
+    . 1 1 1 1 1 1 1 . 
+    8 8 8 8 8 8 8 8 8 
+    8 8 8 8 8 8 8 8 8 
+    8 1 1 1 1 1 1 8 8 
+    8 1 2 2 2 1 1 8 8 
+    8 1 2 2 1 8 1 8 8 
+    8 1 2 1 8 8 1 8 8 
+    8 1 1 8 8 8 1 8 8 
+    8 1 1 1 1 1 1 8 8 
+    8 8 8 8 8 8 8 8 8 
+    8 8 8 8 8 8 8 8 8 
+    1 1 1 1 1 1 1 1 1 
+    `, SpriteKind.Enemy)
+let boss = sprites.create(img`
+    ............................................................
+    .........................................1.......ffffffffff.
+    ...........................................1.....fffffffffff
+    ..............................................ffffffffffffff
+    ..............................................fffffccccccccf
+    ..............................................fffffccccccccf
+    ...........................................1..fffffccccccccf
+    .........................................1.......fffffffffff
+    .................................ffffffffffff....ffffffcccff
+    ...............bbbbbbbb77bbbbbbbffffffffffff.....ffffffcccff
+    .............bbbbbb777777bbbbbbbbbbbbf........ff.....ffcccff
+    ............bbffff777777ffffff66666bbf.........f.....ffcccff
+    ...........bbf77777777771111666666fbbf5555...........ffcccff
+    ...........bb777777777711166666611fbbf5eee...........ffcccff
+    ..........bbf7ddddd77f116666666111fbbf5ee4411.e......ffcccff
+    .........bbbf7fdddd11f116666661111fbbfeee............ffcccff
+    .........bbffdddddd11f116333361111fbbfeee............ffcccff
+    ........bbbf1dddddd11f11f333331111fbbf11111..........ffcccff
+    ........bbff111dddd11f113333331111fbbf11111..........ffcccff
+    .......bbbf1111dddd11f111133331111fbbf11111..........ffcccff
+    .......bbff1111dddd11f111133331111fbbf111111.........fffffff
+    .......bbf11111dddd11f111133331111fbbf111111.........fffffff
+    bbbbbbbbbffffffffffffffffffffffffffbbfffffffffffffffffffffff
+    bbbbbbbbbffffffffffffffffffffffffffbbfffffffffffffffffffbbbb
+    444444bbbffffffffffffffffffffffffffbbfffffffffffffffffffbbbb
+    444444bbbfbbbbbbbfbbfffbbbbbfbbbbbfbbbbbbbbbbbbbbbbbbbbbb444
+    444444bbbfbbbbbbbfbbfffbbbbbfbbbbbfbbbbbbbbbbbbbbbbbbbbbb444
+    bbbbbbbbbfbbbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbb444
+    bbbbbbbbbfbbbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+    bbbbbbbbbbfbbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+    bbbbbbbbbbbfbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+    bbbbbbbbbbbbfbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+    bbbbbbbbbbbbbfbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+    bbbbbbbbbbbbbbfbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+    bbbbbbbbbbbbbbbfbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+    bbbbbbbfffffffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbfffffffbbbbbb
+    bbbbbbfffffffffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbfffffffffbbbbb
+    bbbbbfffffffffffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbfffffffffffbbbb
+    bbbbfffffffffffffbfffffffffffffffffbbbbbbbbbfffffffffffffbbb
+    bbbbfffff222fffffbffffffffffffffffffbbbbbbbbfffff222fffffbbb
+    ....fffff222fffff...........................fffff222fffff...
+    ....fffff222fffff...........................fffff222fffff...
+    ....fffff222fffff...........................fffff222fffff...
+    ....fffff222fffff...........................fffff222fffff...
+    ....fffffffffffff...........................fffffffffffff...
+    .....fffffffffff.............................fffffffffff....
+    ......fffffffff...............................fffffffff.....
+    .......fffffff.................................fffffff......
     `, 0)
-let mySprite2 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
+let backgroundSea = sprites.create(img`
+    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777fffffffffffff777ffffffffff7777777fffff777ffffffffff
+    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777fffffffffff77777fffffffff7777777ffff7777ff777fffff
+    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777f777777777777777777fffff7777777ffff7777ff777fffff
+    f7777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777777777777777777777fff7777ffffffff777fff777fffff
+    f77777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777777777777777777777ff7777fffffff7777ff7777fffff
+    f77777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777777777ffff77777777f7777ffffff77777ff7777fffff
+    fff7777777ffffffffffffffff777777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777777777777ffff777777777fffff77777fff777ffffff
+    fff77777777fffffff777ff777777777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777777777777ff77777777ffff777777777777ffffff
+    ffff77777777ffffff77777777777777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777ffff7777777777ff777777ffff77777f7777777ffffff
+    ffffff7777777fffff7777777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777ffffff777777fff77777fff77777ff777777fffffff
+    fffffff7777777ffff7777777ffffff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777fffffff7777ffff777ff77777fff777ffffffffff
+    fffffff77777777777777777fffffff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777777ffff77777fff777f77777ffff777ffffffffff
+    fffffffffff7777777777ffffffffff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777ff777777fff777f7777f7777777ffffffffff
+    ffffffffffff777777777ffffffffff777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777777777f7777777ff777f777f77777777ffffffffff
+    fffffffffffff77777777fffffffff7777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777777777777777777777f777f777f77777777ffffffffff
+    ffffffffffffff7777777fffffffff7777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777777777ff7777777f7777f777f777f77777777ffffffffff
+    ff777ffffffffff7777fffffff7777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777777ffffffffff777777ff7777777f777f777f7777ffffffffff
+    ff7777777ffffff7777fffff777777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777ffffffffffffff777777f7777777f777f777fffffffffffffff
+    ff7777777777ffff777ffff7777777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777fffffffffffffffff777777f7777fff777f777fffffffffffffff
+    fff77777777777ff777fff777777f7777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777fffffffffffffffffffff7777777777ff777f777fff777fffffffff
+    ffff77777777777f777ff77777fff7777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777ffffffffffffffffffffffff777777777ff777f777fff77777ffff777
+    ffff77777777777f777f77777ffff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777ffffff77777777ffffffffffff777777777f777f777fff777777777777
+    fffffff777ff777777777777ff777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777ffffff777777777777777777777fff77777777777f777ffff77777777777
+    fffffff777ff77777777777fff777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777fffff777777777777777777777777777777777777f777ffffff777777777
+    77777ffffffff777777777fff7777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777fff7777777ffff777777777777777777777777777ffffffffffff7777777
+    77777777fff117777777771ff777711111111111fffffffff1111111111111fffff111111111111fffff1111111111fffff111111111111fffff11111111111fffff11111111111fffff1111111111fffffff1111111111fffff1111111111fffff11111111111fffff1111111111fffff11111111111fffff11111111111fffff1111111111fffff111111111fffff111111111111fffff11111111111fffff11111111111fffff111111111111fffff1111111111fffff11111111111fffff11111111111fffff1111111111fffff11111111111fffff1777777771777777711111111111fffff17777777111777f77777111fffff11177777
+    777777777ff111777717771f7777111111111111fffffffff1111111111111fffff111111111111fffff1111111111fffff111111111111fffff11111111111fffff11111111111fffff1111111111fffffff1111111111fffff1111111111fffff11111111111fffff1111111111fffff11111111111fffff11111111111fffff1111111111fffff111111111fffff111111111111fffff11111111111fffff11111111111fffff111111111111fffff1111111111fffff11111111111fffff11111111111fffff1111111111fffff11111111111fffff17777777777777777771111111117777777711177771ffff777777777ffff11111f77
+    77777777777777777717771f7777111111111111fffffffff1111111111111fffff111111111111fffff1111111111fffff111111111111fffff11111111111fffff11111111111fffff1111111111fffffff1111111111fffff1111111111fffff11111111111fffff1111111111fffff11111111111fffff11111111111fffff1111111111fffff111111111fffff111111111111fffff11111111111fffff11111111111fffff111111111111fffff1111111111fffff11111111111fffff11111111111fffff1111111111fffff11111111111fffff17771111177777f77777111111777777777717777771ffff777777777777771111f77
+    ffff777777777777777777ff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777fffff777ff7777777ff77777777777777777777ffffffff777777777777777fff
+    fffffff777777777777777ff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777fffffff77777777777777777ff777777777eeeeeeeeffffff77777777777777
+    ffffffffffffffff777777ff77777777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777777f77777f7777777777ff777777777eeeeeeeeeefffffffffff777777777
+    f777777fffffffff777777fff7777777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777777777ff7777777fff777777777eeeeeeeeeeeefffffffffffffff77777
+    7777777777777ffff77777f777777777777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777777fffffffffff77777777ffeeefffffffeeefffffffffffffffff777
+    77777777777777777777777777777fff777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777ff77777fffffffff777777777ffffeeefffffffeeeeffffffffffffffff777
+    777ff777777777777ff77777777fffff7777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777ffffff777fffff777777777ffffffeeefffffffeeeeffffffffffffffff777
+    fffffffffff777777ff777777fff77777ff777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777fff777777777ffffffffeeeffeffeffeeeffffffffffffffff777
+    fffffff777ffeeeeeeefff777777777777f7777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777f77777777fffffffffffeeeffeffeffeeeffffffffffffffff777
+    fff7777777feeeeeeee7777777777777777ff77777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777f777777ffffffffff7777eeffeffeffeeefffffffffffffffffff
+    7777777777eeeeeeeee77777777777f7777ffff777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777f7777ffffffff77777777eefffefeffeeefffffffffffffffffff
+    777777777eeeeeeffee77777f7777fff777ffff7777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777fffffff7777777777eefffffeffeeefffffffffffffffffff
+    7777777ffeeeefefffeeeffff7777fff777ffff7777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777ffffff777777777feeeefffffefeeefffffffffffffffffff
+    f77777fffeeeffffffeeefffff777777777ffff7777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777fffffff77777fffffeeeefeeeeeeeeefffffffffffffffffff
+    ff7777fffeeeffffffeeefffff777777777ffff7777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777ffff777777ffffffffeeeeeeeeeeeeefffffffffffffffffff
+    fffffffffeeeffffffeeeffffff777777777ffff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777777fff7777777fffffffeeeeeeeeeeeeeefffffffffffffffffff
+    fffffffffeeeffeeefeeeffffffff77777777fff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777ffffff77777777fffffffeeeeeeeffffeeefffffffffffffffffff
+    fffffffffeeefeeeeeeeeffffffff777f7777fff777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777ffffff77777777ffffffffeeeefffffffeeefffffffffffffffffff
+    fffffffffeeefeeeeeeffffffffff777ff777ff7777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777fffff777777777ffffffffeeeffffffffeeeeffffffffffffffffff
+    fffffffffeeeeeeeeeeffffffffff777ff777ff777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777ffff77777fffffffffffffeeeffffffffeeeeffffffffffffffffff
+    ffffffffffffeeeeeeeffffffffff7777f7777f777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777fff777777ffffffffffffffeeefffffffffeeeffffffffffffffffff
+    fffffffffffeeeefeeeffffffffff777777777f777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff777777777777fffffffffffffffeeefffeffeffeeeffffffffffffffffff
+    ffffffffffeeeeefeeefffffffffff777777777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff77777777777ffffffffffffffffeeefffeffeffeeeffffffffffffffffff
+    ffffffffffeeeeffeeeefffffffffff77777777777ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7777777ffffffffffffffffffeeeffffffeffeeeffffffffffffffffff
+    fffffffffeeeefffeeeeffffffffffffff77777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeeefffeeeeefeeeffffffffffffffffff
+    fffffffffeeeeffeeeeefffffffffffffff7777777fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeeefeeeeeeeeeeeffffffffffffffffff
+    fffffffffeeeeeeeeeeefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeeeeeeeeeeeefffffffffffffffffff
+    ffffffffeeeeeeeeeeeeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeeeeeeefeeeeeeffffffffffffffffff
+    ffffffffeeeeeeeeeeeeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeeeeefffffeeeeffffffffffffffffff
+    ffffffffeeeffffeeeefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffeeeffffffffeeeffffffffffffffffff
+    4444444eeee44444eee44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44444444eee444444444444444444
+    4444444eeee4e444eee44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44444444eee444444444444444444
+    4444444eee44e444eee44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44444444eee444444444444444444
+    4444444eee444444eee44444444444444444444444444545555555444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44eeeeeeeee444444444444444444
+    4444444eee444eeeeee4444444444444444444444445555353555555333333333333333444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eeeeeeeeeeeeee444444444444444444
+    4444444eee4eeeeeeee4444444444444444444444444555555dd545544444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444fffffffffffffffffffffffffff44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eeeeeeeeeeeeee444444444444444444
+    4444444eeeeeeeeeeee444444444444444444444345555dddddd5555444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444ffffffff444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eeeeee4444eee444444444444444444
+    4444444eeeeeeeeeeee44444444444444444444344544d4444444d5544444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444ffddffddff44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eeee444444eee444444444444444444
+    4444444eeeeee44eeee4444444444444444444434554d44484444d5444444444444344444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444fffff44fffff444444444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44444e4eeee44444444444444444
+    44444444eeee4444eeee444444444444444444344545d44444484d554444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444d44444444ff4444444444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eeee4444e4eeeee4444444444444444
+    444444444eee4444eeee444444444444444443444555d44444444554544444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f444444d44f44f444f444444444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eeee44e444eeeee4444444444444444
+    444444444eeeeeeeeeee444444444444444434444444d4442224454454444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444444d444444444d44444444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44e444eeeee4444444444444444
+    44444444eeeeeeeeeeee444444444444444434444444d4444444545544444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444444d44444444d444444444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44e444e4eee4444444444444444
+    4444444eeeeeeeeeeeee4444444444444443444448dd4ddddddd55444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444444d44444444d44444444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee44e44444eee4444444444444444
+    4444444eeeee44eeeee444444444444444344444d844444444d44444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444444444dddd44dd44444444444f44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444eee4444e4444444444444444444444
+    4444444eee4444eeee44444444444444443444ddd88888888dd44444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444dddddddd44dd4444444444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444e4444444444444444444444
+    4444444eee44444eee444444444444444344dd44d8888888d44d444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f444ddd4444444444d444444444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444e4444444444444444444444
+    4444444eee44e44eee444444444444443444d444d4444444d444d4444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444d4d44444444dd4dd444444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    4444444eee44e44eee44444444444443444d444d4444444d4444d444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444dd4d4444444d4444d444444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    444444444444444eee44444444444443444d44d4444444d44444d444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444d44d4444444d4444d44444444f44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    44444444444444444444444444444434444444d488884d44444d444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444444d44444444d4444d4444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    444444444444444444444444444443444444448888884d44444d44444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444444dd4444444d44444d4444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    4444444444444444444444444444344444444d8888488444444d4444443444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444444d422242ddd44444d444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    4444444444444444444444444444344444444dd44888d44444d44444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444442222222224d44444d44444f44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    444444444444444444444444444344444444444dddddd4444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444444222222222d4d44444444444f44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    44444444444444444444444444344444444d444dd44d4444444444443444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f444444442222d2222ddd4444444444f444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    44444444444444444444444444344444444d44ddd44d4444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f4444444424222224d444444444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    4444444444444444444444444344444444d44dd444d4444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444444d44222444d444444444444f4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    4444444444444444444444443444444444d4d4d444d444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f44444444d444224224d44444444444f44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    444444444444444444444443444444444d44d4d44d444444444443444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444f444444444d44dd4444d44444444444f444444444444444444444444666666666666666664444444444444444444444444444444444444444444444444444444444444464444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    444444444444444444444443444444444d44d4d44d44444444443444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444446666666666666666.444444444444444444444f44444444d444dd4444d44444444444f444444444444446666666666666666666666666666666444444444444444444444444444444444444444444444444444446666666666444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+    44444444444444444444443444444444d44d4d444d44444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444466666666666666666666644444444444444444444f44444444d4444ddddddd4444444444f4444444444664446666666666666666666666666666666666444444444444444444444444444444444444444444444466666666666666666666666666666666666444444444444444444444444466666666666644444444444444444444444444444444
+    44444444444444444444434444444444ddd44dddd44444444443444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444446666666666666666666666666666444444444444444f444444444dddddd444444444444444f44444444446666666666666666666666666666666666666666644444444444444444444444444444444444444444666666666666666666666666666666666666666664444444444444444444466666666666666666644444444444444444444444444444
+    6666666.444444444444444444444444444444444444444444344444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444466666666666666666666666666666666664444444444444444444444444444444444444444444f44444444466666666666666666666666666666666666666666664444444444444444444444444444444444444466666666666666666666666666666666666666666666644444444444444466666666666666666666666644444444444444444444444444
+    666666666644444444444444333333344444444444444444434444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444466666666666666666666666666666666666666444444444ffffffffffffff44444444444444444f444444466666666666666666666666666666666666666666666666644444444444444444444444444444444446666666666666666666666666666666666666666666666666666644444466666666666666666666666666666666644444444444444444444
+    66666666666444444444444444444443333333333334444443444444444444444444446666666666666666664444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444666666666666666666666666666666666666666666444444444444444444444fffffffffffffff4f4444444666666666666666666666666666666666666666666666666666644444444444444444444444444444666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666644444444444444444
+    6666666666666644444444444444444444444444444333333344444444444444666666666666666666666666666664444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444446666666666666666666666666666666666666666666666444444444444444444444444444444444444444444666666666666666666666666666666666666666666666666666666666666444444444444444444446666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666644444444444.666
+    66666666666666664444444444444444444444444444444344444444444446666666666666666666666666666666666666644444444444444444444444444444444444444444444444444444444466666666666666444444444444444444444444444444444444444444446666666666666666666666661111111166666666666666666644444444444444444444444444444444444444466666666666666666666666666666666666666666666666666666666666666664444444444666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666644444444444444444444444444444444444466666666666666666666666666666666666666666666666644444444444444444444444444444444444444444444466666666666666666666666666666444444444444444444444444444444444444666666666666666666666666116666666611166166666666666666444444444444444444444444444444444444666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666444444444444444444444444444444666666666666666666666666666666666666666666666666666666444444444444444444444444444444444444444666666666666666666666666666666666666666444444444444444444444444446666666666666666666666666666666666666666611666666666666666666444444444444444444444444444444444666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666444444444444444444444444666666666666666666666666666666666666666666666666666666666644444444444444444444444444444444446666666666666666666666666666666666666666666666664444444444444444666666666666666666666666666666666666666666666666666666666666666666666444444444444444444444444444666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666444444444444466666666666666666666666666666666666666666666666666666666666666664444444444444444444444444446666666666666666666666666666666666666666666666666666666666444444444466666666666666666666666666666666666666666666666666666666666666666666666664444444444444444444444466666666666666666666666666666666666666611111111111166666666666666666666666666666666666666666666666666666666666666666666666666661111111166666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666444444444444444444444466666666666666666666666666666666666666666666666666666666666666666664444666666666666666666666666666666666666666666666666666666666666666666666666666666644444444444444466666666666666666666666666666666666666111166666666666611666666666666666666666666666666666666666666661666666666666666666666666611116666666611111166666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666444444444444444444466666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666111666666666666666666116666666666666666666666666666666666666666616666666666666666666666666666666666666666666616666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666644444444444444444466666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666661111666666666666666666666661166666666666666666666666666666666666666616666666666666666666666666666666666666666666661666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666116666666666666666666666666666611116666666666666666666666666666666666166666666666666666666666666666666666666666666661666666666666666666666666666666666661111116666666666661666666
+    66666666666666666666666666666666666666666666666666666666666666666111111111111166666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666661111666666666666666666666666666661666666666666666666666666666666666666666666666666166666666666666666666666666666666116666661111111666616666666
+    66666666666666666666666666666666666666666666666666666666666666111666666666666611666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666611111111111111111666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666111116666666666666666666661111666666666666666666666666666666666666666666666666616666666666666666666666666666611666666666666666111166666666
+    66666666666666666666666666666666666666666666666666666666666611666666666666666666166666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666111166666666666666666166666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666661111111666666111111116666666666666666611666666666666666666666666666666666661166666666666666666666666666166666666666666666666666666666
+    66666666666666666666661111166666666666666666666666666666666666666666666666666666616666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666611666666666666666666666611666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666111111666666666666666666666666666116666611111111666666666666666666666611116666666666666666666661666666666666666666666666666666
+    66666666666666611111116666611666666666666666666666666666666666666666666666666666661666666666666666666666666666666666666666666666666666666666666666666111111111111166666666666666666666666666666666666666666666666666666666666666666666666666666666116666666666666666666666666666666666666666611666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666661111166666666666666666666666666666666661116666666666666666116666666666666666666666666666666
+    66666666666111166666666666666116666666666666666666666666666666666666666666666666666116666666666666666666666666666666666666666666666666666666666666111666666666666611666666666666666666666666666666666666666666666666666666666666666666666666666666661116666666666666666666666666666666666661166666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666661111111111111111666666666666666666666666666666666
+    66666666666666666666666666666661166666666666666666666666666666666666666666666666666661166666666666666666666666666666666666666666666666666666661111666666666666666666111666666666666666666666666666666666666666666666666666666666666666666666666666666661166666666666666666666666666666661116666666666666666666666666666666666666666666116666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666611666666666666666666666666666666611666666666666666666611116666666666666666666611111666666666666666666666666116666666666666666666666666111116666666666666666666666666666666666666666666666666666666666666666666666666666611111111666666666666666666666116666666666666666666666666666666666666666166661666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666111111166666666666666666666611166666666666666666666666661111116666666666111166666666666666666666666666666666666666666666666666666666666661111666666666666666666666666666666666666666666666666666666666666666666666666666666666111111111111666666611666666666666666666666666666666611111111111666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666611111111116666666111166666666666666666666666666666666661111111111666666666666666666666666666666666666666666666666666666666666666666666111166666666666111111666666666666666666666666666666666666666666666666666666666666666666666666111111166666666666666666666666666661111166666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666661111111666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666611111111111666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+    6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666.666666666
     `, 0)
+backgroundSea.setPosition(230, 60)
+backgroundSea.setVelocity(-27, 0)
 statusbar = statusbars.create(20, 4, StatusBarKind.Health)
 statusbar.setLabel("HP")
 statusbar.positionDirection(CollisionDirection.Top)
 carProtag = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . 3 . . . . . . . . 
-    . . . . . . 3 3 3 . . . . . . . 
-    . . . . . . 3 3 3 . . . . . . . 
-    . . . . . . 3 3 3 . . . . . . . 
-    . . . . . . 3 3 3 . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
+    .....eeeeeee444444...........
+    .fffffffffff555555...........
+    .fffffffffff555555d..........
+    .ffff.ffeefe555dffd2.........
+    .....2ffeeee5fddddd222.......
+    ....2211eee51f1ddd11122......
+    ...22111eee11f1ddd111122.....
+    22222ffffffffffffffffff222244
+    44422f2222222f2f2222222222244
+    44422f2222222f2f2222222222222
+    2222222222222f222222222222222
+    2222222222222f222222222222222
+    2222fff222222f2222222fff22222
+    222fffff222222222222fffff2222
+    ..fffffff..........fffffff...
+    ..fffbfff..........fffbfff...
+    ..fffffff..........fffffff...
+    ...fffff............fffff....
+    ....fff..............fff.....
+    .............................
     `, SpriteKind.Player)
-carProtag.setPosition(30, 35)
 let carProtagPosX = 30
 CarProtagPosY = 35
 let ennemySpeed = -50
 let ennemyParent1 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
-    . . . . . . . . . b 5 5 b . . . 
-    . . . . . . b b b b b b . . . . 
-    . . . . . b b 5 5 5 5 5 b . . . 
-    . b b b b b 5 5 5 5 5 5 5 b . . 
-    . b d 5 b 5 5 5 5 5 5 5 5 b . . 
-    . . b 5 5 b 5 d 1 f 5 d 4 f . . 
-    . . b d 5 5 b 1 f f 5 4 4 c . . 
-    b b d b 5 5 5 d f b 4 4 4 4 b . 
-    b d d c d 5 5 b 5 4 4 4 4 4 4 b 
-    c d d d c c b 5 5 5 5 5 5 5 b . 
-    c b d d d d d 5 5 5 5 5 5 5 b . 
-    . c d d d d d d 5 5 5 5 5 d b . 
-    . . c b d d d d d 5 5 5 b b . . 
-    . . . c c c c c c c c b b . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . c b a c . . . . . . 
+    . . . . c c b c f a c . . . . . 
+    . . . . a f b b b a c . . . . . 
+    . . . . a f f b a f c c . . . . 
+    . . . . c b b a f f c . . . . . 
+    . . . . . b b a f a . . . . . . 
+    . . . . . . c b b . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
     `, SpriteKind.Enemy)
 ennemyParent1.setPosition(0, 0)
 let ennemyParent2 = sprites.create(img`
@@ -237,120 +305,179 @@ let ennemyParent2 = sprites.create(img`
     `, SpriteKind.Enemy)
 ennemyParent2.setPosition(0, 0)
 let ennemyObstacle = sprites.create(img`
-    ..............ffffff....
-    .............f2feeeeff..
-    ............f222feeeeff.
-    .......cc...feeeeffeeef.
-    .......cdc.fe2222eeffff.
-    .......cddcf2effff222ef.
-    ........cddcffeeefffffff
-    .........cddce44fbe44eff
-    ..........cdceddf14d4eef
-    ..........cccdeddd4eeef.
-    ...........edd4e44eeff..
-    ............ee442222f...
-    .............f2e2222f...
-    .............f554444f...
-    ..............ffffff....
-    ................fff.....
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
+    . . . . . . . . . . . . . . . . 
+    . . . . 6 6 6 6 6 6 6 6 . . . . 
+    . . . 6 c 6 6 6 6 6 6 9 6 . . . 
+    . . 6 c c 6 6 6 6 6 6 9 c 6 . . 
+    d 6 9 c c 6 9 9 9 9 9 9 c c 6 . 
+    6 6 9 c b 8 8 8 8 8 8 8 6 c 6 . 
+    6 6 9 b 8 8 b b b 1 b b 8 6 6 . 
+    6 6 6 6 8 b b b b 8 b b b 8 6 . 
+    6 6 6 8 6 6 6 6 6 8 6 6 6 8 8 . 
+    d d 6 8 f 8 8 8 f 8 8 8 8 8 8 . 
+    d 6 8 8 8 f 8 8 f 8 8 8 8 8 8 . 
+    8 8 8 8 8 8 f f f 8 8 8 8 8 8 . 
+    8 8 8 f f f 8 8 8 8 f f f f 8 . 
+    . 8 f f f f f 8 8 f f f f f . . 
+    . . f f f f . . . . f f f . . . 
+    . . . . . . . . . . . . . . . . 
     `, SpriteKind.Enemy)
 ennemyObstacle.setPosition(0, 0)
 let ennemyPassant = sprites.create(img`
-    ...............cc...............
-    ............ccc65c66............
-    ............c6c55c76............
-    ...........6cc7557c66...........
-    ..........cc77777577c6..........
-    .........666c677776cc66.........
-    ........c7776c7c67657576........
-    ........ccc666c666655666........
-    ......c66cc7666667777c6766......
-    .....c777c77667667767767776.....
-    .....cc66cccc77c677cc666666.....
-    ....c6766666c7c6767677777766....
-    ...cc777666666677767777667c66...
-    .666cc6677666667777777776677666.
-    .67776677c676677777776677677776.
-    cc6666ccc67767776777776cc7767666
-    c666777667766776c776777c67776c66
-    .c6777666ccc667c676cc666667776c.
-    .cc6666766666cc66666666776cc666.
-    ...66776c666666666677667766cccc.
-    ...cc76c66766666667677667776c...
-    ...6cccc677666666776777c77666...
-    ......6ccc7c67767776c776cc......
-    ........ccc6777c67776cc6........
-    ...........cc77c67766...........
-    .............6c6666.............
-    ............ffeeeef.............
-    ..........ffeeeeeeeef...........
-    .............feeeffe............
-    ..............fef...............
-    ..............fef...............
-    ...............f................
+    . . . . . . . . . . . . . . . 
+    . . . . . . . d e . . . . . . 
+    . . . . . . . e d . . . . . . 
+    . . . . . . . . d . . . . . . 
+    . . . . . . . 1 1 1 f . . . . 
+    . . . . . . 1 1 1 1 f . . . . 
+    . f f f f d . 1 1 1 f . . . . 
+    5 f 9 . . . 8 8 f f f f . . . 
+    5 f 9 . . 8 8 9 9 9 9 9 9 . . 
+    . f 9 . 8 8 9 9 9 9 9 9 9 f . 
+    . f 9 e e 9 9 9 9 9 9 9 9 f 5 
+    . f f f f f f f f f f f f f f 
+    . . f f f f . . . . f f f f . 
+    . . . f f . . . . . . f f . . 
     `, SpriteKind.Enemy)
 ennemyPassant.setPosition(0, 0)
 let ennemyDelinquent = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . 6 6 6 6 6 6 6 6 . . . . 
-    . . . 6 9 6 6 6 6 6 6 c 6 . . . 
-    . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
-    . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
-    . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
-    . 6 6 8 b b 1 b b b 8 8 b 9 6 6 
-    . 6 8 b b b 8 b b b b 8 6 6 6 6 
-    . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
-    . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
-    . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
-    . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
-    . 8 f f f f 8 8 8 8 f f f 8 8 8 
-    . . f f f f f 8 8 f f f f f 8 . 
-    . . . f f f . . . . f f f f . . 
-    . . . . . . . . . . . . . . . . 
+    ..............................
+    ..............................
+    ..............................
+    .........9....................
+    ..............................
+    ......fff..9..................
+    ..............................
+    ......ddd........fff..........
+    ......ddd......ddeee.....1111.
+    ......ffd......ddeee....11111.
+    .......dd......ffdee...111111.
+    .......dd.......ddee.11111111.
+    .2fffffffffffffffffff333333332
+    3ff333333333f3333333f333333333
+    3333333333f3f33333f3f333333333
+    333333333333f3333333f333333333
+    33333fff333333333333f33fff3333
+    ....fffff.............fffff...
+    ....fffff.............fffff...
+    .....fff...............fff....
     `, SpriteKind.Enemy)
 ennemyDelinquent.setPosition(0, 0)
+carProtag.setPosition(30, 35)
+game.onUpdate(function () {
+    console.log(game.runtime())
+    console.log(bossTime)
+})
 game.onUpdateInterval(1000, function () {
-    let timeFrame = 0
-    if (timeFrame == 20000) {
-        ennemySpeed = ennemySpeed + -10
+    if (game.runtime() > 5000 && bossTime == 0) {
+        ennemySpeed = ennemySpeed + -0.5
     }
+    if (timeFrame >= 12000) {
+        backgroundSea.setPosition(230, 60)
+        timeFrame = 0
+    }
+    if (game.runtime() >= 20000) {
+        bossTime = 1
+    }
+    timeFrame = timeFrame + 1000
 })
 game.onUpdateInterval(4000, function () {
     newEnemyRand = randint(0, 6)
     new_ennemy_rand_pos = randint(15, 55)
-    if (newEnemyRand == 0) {
+    if (newEnemyRand == 0 && bossTime == 0) {
         actualEnnemy = ennemyParent1
         actualEnnemy.setPosition(145, new_ennemy_rand_pos)
         actualEnnemy.setVelocity(ennemySpeed, 0)
-    } else if (newEnemyRand == 1) {
+    } else if (newEnemyRand == 1 && bossTime == 0) {
         actualEnnemy = ennemyParent2
         actualEnnemy.setPosition(145, new_ennemy_rand_pos)
         actualEnnemy.setVelocity(ennemySpeed, 0)
-    } else if (newEnemyRand == 2) {
+    } else if (newEnemyRand == 2 && bossTime == 0) {
         actualEnnemy = ennemyDelinquent
         actualEnnemy.setPosition(145, new_ennemy_rand_pos)
         actualEnnemy.setVelocity(ennemySpeed, 0)
-    } else if (newEnemyRand == 3) {
+    } else if (newEnemyRand == 3 && bossTime == 0) {
         actualEnnemy = ennemyObstacle
         actualEnnemy.setPosition(145, new_ennemy_rand_pos)
         actualEnnemy.setVelocity(ennemySpeed, 0)
-    } else if (newEnemyRand == 4) {
+    } else if (newEnemyRand == 4 && false) {
         actualEnnemy = ennemyPassant
         actualEnnemy.setPosition(145, new_ennemy_rand_pos)
         actualEnnemy.setVelocity(ennemySpeed, 0)
-    } else if (newEnemyRand == 5) {
+    } else if (newEnemyRand == 5 && false) {
         actualEnnemy = ennemyParent1
         actualEnnemy.setPosition(145, new_ennemy_rand_pos)
         actualEnnemy.setVelocity(ennemySpeed, 0)
-    } else {
-    	
+    }
+})
+game.onUpdateInterval(500, function () {
+    newRandProj = randint(15, 55)
+    if (bossTime == 1) {
+        boss = sprites.create(img`
+            ............................................................
+            .........................................1.......ffffffffff.
+            ...........................................1.....fffffffffff
+            ..............................................ffffffffffffff
+            ..............................................fffffccccccccf
+            ..............................................fffffccccccccf
+            ...........................................1..fffffccccccccf
+            .........................................1.......fffffffffff
+            .................................ffffffffffff....ffffffcccff
+            ...............bbbbbbbb77bbbbbbbffffffffffff.....ffffffcccff
+            .............bbbbbb777777bbbbbbbbbbbbf........ff.....ffcccff
+            ............bbffff777777ffffff66666bbf.........f.....ffcccff
+            ...........bbf77777777771111666666fbbf5555...........ffcccff
+            ...........bb777777777711166666611fbbf5eee...........ffcccff
+            ..........bbf7ddddd77f116666666111fbbf5ee4411.e......ffcccff
+            .........bbbf7fdddd11f116666661111fbbfeee............ffcccff
+            .........bbffdddddd11f116333361111fbbfeee............ffcccff
+            ........bbbf1dddddd11f11f333331111fbbf11111..........ffcccff
+            ........bbff111dddd11f113333331111fbbf11111..........ffcccff
+            .......bbbf1111dddd11f111133331111fbbf11111..........ffcccff
+            .......bbff1111dddd11f111133331111fbbf111111.........fffffff
+            .......bbf11111dddd11f111133331111fbbf111111.........fffffff
+            bbbbbbbbbffffffffffffffffffffffffffbbfffffffffffffffffffffff
+            bbbbbbbbbffffffffffffffffffffffffffbbfffffffffffffffffffbbbb
+            444444bbbffffffffffffffffffffffffffbbfffffffffffffffffffbbbb
+            444444bbbfbbbbbbbfbbfffbbbbbfbbbbbfbbbbbbbbbbbbbbbbbbbbbb444
+            444444bbbfbbbbbbbfbbfffbbbbbfbbbbbfbbbbbbbbbbbbbbbbbbbbbb444
+            bbbbbbbbbfbbbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbb444
+            bbbbbbbbbfbbbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+            bbbbbbbbbbfbbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+            bbbbbbbbbbbfbbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+            bbbbbbbbbbbbfbbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+            bbbbbbbbbbbbbfbbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+            bbbbbbbbbbbbbbfbbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+            bbbbbbbbbbbbbbbfbbbbfffbbbbbbbbbbbfbbbbbbbbbbbbbbbbbbbbbbbbb
+            bbbbbbbfffffffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbfffffffbbbbbb
+            bbbbbbfffffffffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbfffffffffbbbbb
+            bbbbbfffffffffffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbfffffffffffbbbb
+            bbbbfffffffffffffbfffffffffffffffffbbbbbbbbbfffffffffffffbbb
+            bbbbfffff222fffffbffffffffffffffffffbbbbbbbbfffff222fffffbbb
+            ....fffff222fffff...........................fffff222fffff...
+            ....fffff222fffff...........................fffff222fffff...
+            ....fffff222fffff...........................fffff222fffff...
+            ....fffff222fffff...........................fffff222fffff...
+            ....fffffffffffff...........................fffffffffffff...
+            .....fffffffffff.............................fffffffffff....
+            ......fffffffff...............................fffffffff.....
+            .......fffffff.................................fffffff......
+            `, SpriteKind.Food)
+        boss.setPosition(132, 25)
+        projectile = sprites.createProjectileFromSide(img`
+            . . 1 1 1 1 1 . . 
+            . 1 1 1 1 1 1 1 . 
+            8 8 8 8 8 8 8 8 8 
+            8 8 8 8 8 8 8 8 8 
+            8 1 1 1 1 1 1 8 8 
+            8 1 2 2 2 1 1 8 8 
+            8 1 2 2 1 8 1 8 8 
+            8 1 2 1 8 8 1 8 8 
+            8 1 1 8 8 8 1 8 8 
+            8 1 1 1 1 1 1 8 8 
+            8 8 8 8 8 8 8 8 8 
+            8 8 8 8 8 8 8 8 8 
+            1 1 1 1 1 1 1 1 1 
+            `, 0, newRandProj)
     }
 })
